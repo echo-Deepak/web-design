@@ -1,0 +1,64 @@
+:root{--bg:#f6f4fb;--card:#fff;--ink:#1a1633;--mute:#615d7a;--line:#e1ddf0;--brand:#5b3df5;--sun:#ffc93c;--err:#c8223b;--ok:#157f4a;--r:18px}
+[data-theme=dark]{--bg:#12101f;--card:#1c1930;--ink:#f1eefc;--mute:#a6a1c4;--line:#2d2948;--brand:#8f7bff;--err:#ff6b82;--ok:#4cd68c}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{font:16px/1.6 "DM Sans",system-ui,sans-serif;background:var(--bg);color:var(--ink);transition:background .3s,color .3s}
+h1,h2,h3,.logo{font-family:"Bricolage Grotesque","DM Sans",sans-serif;line-height:1.1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.nav{position:sticky;top:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:12px clamp(16px,4vw,48px);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.logo{font-size:1.6rem;font-weight:800;text-decoration:none}.logo span{color:var(--brand)}
+.nav nav{display:flex;gap:18px;align-items:center}.nav nav a{text-decoration:none;font-weight:500}
+.nav b{background:var(--sun);color:#1a1633;border-radius:99px;padding:0 8px;font-size:.8rem}
+.icon{background:none;border:1px solid var(--line);color:var(--ink);border-radius:50%;width:38px;height:38px;font-size:1.1rem;cursor:pointer;transition:transform .3s}
+.icon:hover{transform:rotate(180deg)}
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;padding:clamp(40px,8vw,100px) clamp(16px,4vw,48px);max-width:1200px;margin:auto}
+.hero h1{font-size:clamp(2.4rem,6vw,4.6rem);font-weight:800;letter-spacing:-.03em;margin-bottom:18px}
+.hero p{max-width:46ch;color:var(--mute);font-size:1.1rem;margin-bottom:26px}
+.btn{display:inline-block;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:13px 24px;font:700 1rem "DM Sans",sans-serif;text-decoration:none;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px -6px var(--brand)}
+.next{background:var(--ink);color:var(--bg);border-radius:var(--r);padding:26px;transform:rotate(1.5deg)}
+.next small{opacity:.7}.next h3{font-size:1.6rem;margin:6px 0 16px}
+.clock{display:flex;gap:10px}.clock div{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 0;flex:1;text-align:center;font:800 1.7rem "Bricolage Grotesque",sans-serif}
+.clock span{display:block;font:500 .7rem "DM Sans";opacity:.7}
+.next button{margin-top:16px;background:var(--sun);color:#1a1633;border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+.wrap{max-width:1200px;margin:auto;padding:40px clamp(16px,4vw,48px)}
+.bar{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+h2{font-size:2rem;font-weight:800;letter-spacing:-.02em}
+input,select{font:inherit;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:11px 14px;width:100%;transition:border .2s}
+input:focus,select:focus{border-color:var(--brand);outline:0}
+#search{max-width:340px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:6px 16px;font:500 .9rem "DM Sans";cursor:pointer;transition:.2s}
+.chip[aria-pressed=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:24px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:transform .25s,box-shadow .25s;animation:in .5s both}
+.card:hover{transform:translateY(-5px);box-shadow:0 14px 30px -14px rgba(40,20,120,.35)}
+.art{height:150px;display:grid;place-items:center;font-size:4rem;position:relative}
+.date{position:absolute;top:12px;left:12px;background:var(--card);color:var(--ink);border-radius:10px;padding:3px 10px;font-weight:700;font-size:.8rem}
+.info{padding:18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.info h3{font-size:1.25rem}.info p{color:var(--mute);font-size:.92rem;flex:1}
+.meta{font-size:.85rem;color:var(--mute)}
+.info .btn{margin-top:10px;text-align:center;padding:10px}
+.empty{text-align:center;color:var(--mute);padding:40px}
+.mylist{display:grid;gap:12px}
+.reg{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.reg button{background:none;border:1px solid var(--line);color:var(--err);border-radius:8px;padding:6px 12px;cursor:pointer}
+dialog{border:0;border-radius:22px;padding:0;width:min(640px,94vw);max-height:92vh;background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(0,0,0,.4)}
+dialog::backdrop{background:rgba(10,8,25,.6);backdrop-filter:blur(3px)}
+dialog[open]{animation:pop .3s}
+.close{position:absolute;top:10px;right:14px;z-index:2;width:36px;height:36px;border-radius:50%;border:0;background:var(--card);color:var(--ink);font-size:1.4rem;cursor:pointer}
+.m-pad{padding:24px}.m-pad h2{font-size:1.8rem;margin-bottom:6px}
+.facts{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--mute);margin:8px 0 12px;font-size:.92rem}
+.mclock{display:flex;gap:8px;margin:14px 0;font-weight:700}.mclock span{background:var(--bg);border-radius:10px;padding:6px 12px}
+form{display:grid;gap:14px;margin-top:18px;border-top:1px solid var(--line);padding-top:18px}
+label{font-weight:500;font-size:.9rem;display:grid;gap:5px}
+.err{color:var(--err);font-size:.82rem;min-height:1em}
+input.bad,select.bad{border-color:var(--err)}
+.ok{text-align:center;padding:40px 24px}.ok .tick{width:64px;height:64px;border-radius:50%;background:var(--ok);color:#fff;font-size:2rem;display:grid;place-items:center;margin:0 auto 16px;animation:pop .4s}
+.ok h2{margin-bottom:8px}.ok p{color:var(--mute);margin-bottom:18px}
+footer{text-align:center;color:var(--mute);padding:40px 16px;font-size:.85rem}
+@keyframes in{from{opacity:0;transform:translateY(12px)}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.next{transform:none}.nav nav a:first-child{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
