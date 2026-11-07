@@ -3,52 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Convene – Discover and register for events</title>
+<title>convene – Say yes to something this week</title>
 <meta name="description" content="Browse upcoming workshops, concerts, hackathons and more. Register in under a minute.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Figtree:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<header class="nav">
-  <a href="#top" class="logo" aria-label="Convene home">Convene<span>.</span></a>
-  <nav aria-label="Main">
-    <a href="#events">Events</a>
-    <a href="#mine">My registrations <b id="count">0</b></a>
-    <button id="theme" class="icon" aria-label="Toggle dark mode">◐</button>
-  </nav>
+<header class="top">
+  <a href="#top" class="logo" aria-label="convene home">convene</a>
+  <div class="actions">
+    <a class="pill" href="#mine">My tickets <b id="count">0</b></a>
+    <button id="theme" class="pill" aria-label="Toggle dark mode">Dark / Light</button>
+  </div>
 </header>
 
 <main id="top">
   <section class="hero">
-    <div class="hero-text">
-      <h1>Find the room you want to be in.</h1>
-      <p>Workshops, concerts, hackathons and meetups happening near you. Pick one, register in a minute, and show up.</p>
-      <a class="btn" href="#events">Browse events</a>
+    <div>
+      <h1>Say yes to something this week.</h1>
+      <p>Hackathons, gigs, workshops and meetups. Find one, grab a ticket in a minute, and show up.</p>
+      <a class="cta" href="#events">See what's on</a>
     </div>
-    <aside class="next" id="next" aria-live="polite"></aside>
+    <aside class="stub" id="next" aria-live="polite"></aside>
+  </section>
+  <div class="marquee" aria-hidden="true"><div>Tech · Music · Workshop · Business · Food · Sports · Tech · Music · Workshop · Business · Food · Sports · </div></div>
+
+  <section id="events" class="events">
+    <aside class="side">
+      <h2>Find an event</h2>
+      <input id="search" type="search" placeholder="Search name, venue, topic" aria-label="Search events">
+      <div id="chips" class="cats" role="group" aria-label="Filter by category"></div>
+    </aside>
+    <div>
+      <div id="grid" class="list"></div>
+      <p id="empty" class="empty" hidden>Nothing matches that search. Try another word or clear the filter.</p>
+    </div>
   </section>
 
-  <section id="events" class="wrap">
-    <div class="bar">
-      <h2>Upcoming events</h2>
-      <input id="search" type="search" placeholder="Search by name, venue or topic" aria-label="Search events">
-    </div>
-    <div id="chips" class="chips" role="group" aria-label="Filter by category"></div>
-    <div id="grid" class="grid"></div>
-    <p id="empty" class="empty" hidden>No events match that search. Try another word or clear the filter.</p>
-  </section>
-
-  <section id="mine" class="wrap">
-    <h2>My registrations</h2>
+  <section id="mine" class="mine">
+    <h2>My tickets</h2>
     <div id="mylist" class="mylist"></div>
   </section>
 </main>
 
-<footer>Convene · Built with HTML, CSS and JavaScript · Registrations are saved in your browser only</footer>
+<footer>convene · HTML, CSS and JavaScript · Tickets are saved in your browser only</footer>
 
 <dialog id="modal" aria-labelledby="m-title">
-  <button class="close" id="close" aria-label="Close">×</button>
+  <button class="close" id="close" aria-label="Close">Close ✕</button>
   <div id="m-body"></div>
 </dialog>
 <script src="script.js"></script>

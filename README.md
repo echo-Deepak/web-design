@@ -1,14 +1,14 @@
-# Convene – Event Management Website
+# convene – Event Management Website
 
 A responsive event discovery and registration website built with **HTML5, CSS3 and vanilla JavaScript** (no frameworks).
 
 **Live demo:** _add your Vercel / Netlify / GitHub Pages link here_
 
 ## Features
-- Hero section with a live countdown to the next event
-- Event cards with date, venue, image, description and seats left
+- Bold hero with a ticket-stub card and live countdown to the next event
+- Ticket-style event rows with date, venue, image, description and seats left
 - Search by name, venue or topic, plus category filter chips
-- Event details dialog with its own countdown timer
+- Slide-in drawer with its own countdown timer
 - Registration form (name, email, phone, event) with JavaScript validation
   - Name: letters only, at least 3 characters
   - Email: standard email pattern

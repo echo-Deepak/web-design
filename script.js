@@ -16,24 +16,24 @@ const $=s=>document.querySelector(s);
 const store={get:()=>{try{return JSON.parse(localStorage.getItem("regs"))||[]}catch{return[]}},set:v=>localStorage.setItem("regs",JSON.stringify(v))};
 let cat="All",query="",open=null;
 const fmt=t=>new Date(t).toLocaleString("en-IN",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit"});
-const art=e=>`background:linear-gradient(135deg,hsl(${e.hue} 80% 62%),hsl(${(e.hue+50)%360} 80% 48%))`;
+const art=e=>`background:hsl(${e.hue} 75% 42%)`;
 const left=e=>e.seats-store.get().filter(r=>r.eventId===e.id).length;
 const esc=s=>s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 
 function render(){
   const q=query.toLowerCase();
   const list=EVENTS.filter(e=>(cat==="All"||e.cat===cat)&&(e.title+e.venue+e.desc+e.cat).toLowerCase().includes(q));
-  $("#grid").innerHTML=list.map((e,i)=>`<article class="card" style="animation-delay:${i*50}ms" data-id="${e.id}">
-    <div class="art" style="${art(e)}" aria-hidden="true">${e.emoji}<span class="date">${new Date(e.time).toLocaleDateString("en-IN",{day:"numeric",month:"short"})}</span></div>
-    <div class="info"><h3>${e.title}</h3><span class="meta">${fmt(e.time)} · ${e.venue}</span><p>${e.desc}</p>
-    <span class="meta">${left(e)>0?left(e)+" seats left":"Sold out"}</span><button class="btn">View details</button></div></article>`).join("");
+  $("#grid").innerHTML=list.map((e,i)=>{const d=new Date(e.time);return`<article class="row" style="animation-delay:${i*50}ms" data-id="${e.id}">
+    <div class="dt" style="${art(e)}"><div class="big">${d.getDate()}</div><span>${d.toLocaleDateString("en-IN",{month:"short"})}</span></div>
+    <div class="body"><h3>${e.emoji} ${e.title}</h3><span class="meta">${fmt(e.time)} · ${e.venue}</span><p>${e.desc}</p></div>
+    <div class="go"><span class="tag">${left(e)>0?left(e)+" seats left":"Sold out"}</span><button class="btn">Details</button></div></article>`}).join("");
   $("#empty").hidden=list.length>0;
-  $("#chips").innerHTML=["All",...new Set(EVENTS.map(e=>e.cat))].map(c=>`<button class="chip" aria-pressed="${c===cat}">${c}</button>`).join("");
+  $("#chips").innerHTML=["All",...new Set(EVENTS.map(e=>e.cat))].map(c=>`<button class="cat" aria-pressed="${c===cat}" data-cat="${c}"><span>${c}</span><span>${c==="All"?EVENTS.length:EVENTS.filter(e=>e.cat===c).length}</span></button>`).join("");
   renderMine();
 }
 function renderMine(){
   const regs=store.get();$("#count").textContent=regs.length;
-  $("#mylist").innerHTML=regs.length?regs.map(r=>{const e=EVENTS.find(x=>x.id===r.eventId);return`<div class="reg"><div><b>${e.title}</b><br><span class="meta">${esc(r.name)} · ${fmt(e.time)} · Ref ${r.ref}</span></div><button data-cancel="${r.ref}">Cancel</button></div>`}).join(""):`<p class="meta">You haven't registered for anything yet. Pick an event above to get started.</p>`;
+  $("#mylist").innerHTML=regs.length?regs.map(r=>{const e=EVENTS.find(x=>x.id===r.eventId);return`<div class="reg"><b>${e.emoji} ${e.title}</b><br><span>${esc(r.name)} · ${fmt(e.time)}<br>Ref ${r.ref}</span><br><button data-cancel="${r.ref}">Cancel</button></div>`}).join(""):`<p class="none">You haven't registered for anything yet. Pick an event above to get started.</p>`;
 }
 function parts(t){const s=Math.max(0,Math.floor((t-Date.now())/1000));return[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60]}
 function tick(){
@@ -42,16 +42,16 @@ function tick(){
 }
 function showNext(){
   const e=EVENTS[0];
-  $("#next").innerHTML=`<small>Next up</small><h3>${e.title}</h3><div class="clock" id="nextclock"></div><button data-id="${e.id}">Reserve a seat</button>`;
+  $("#next").innerHTML=`<small>Next up</small><h3>${e.title}</h3><div class="clock" id="nextclock"></div><button data-id="${e.id}">Get a ticket</button>`;
 }
 function openEvent(id){
   open=EVENTS.find(e=>e.id===id);const e=open,sold=left(e)<=0;
-  $("#m-body").innerHTML=`<div class="art" style="${art(e)}" aria-hidden="true">${e.emoji}</div>
+  $("#m-body").innerHTML=`<div class="banner" style="${art(e)}"><span class="big">${e.emoji}</span></div>
   <div class="m-pad"><h2 id="m-title">${e.title}</h2>
-  <div class="facts"><span>📅 ${fmt(e.time)}</span><span>📍 ${e.venue}</span><span>🏷 ${e.cat}</span><span>💺 ${Math.max(0,left(e))} seats left</span></div>
+  <div class="facts"><span>When: ${fmt(e.time)}</span><span>Where: ${e.venue}</span><span>Category: ${e.cat}</span><span>Seats left: ${Math.max(0,left(e))}</span></div>
   <p>${e.desc}</p><div class="mclock" id="mclock"></div>
   ${sold?`<p class="err">This event is sold out. Try another event.</p>`:`
-  <form id="form" novalidate><h3>Register</h3>
+  <form id="form" novalidate><h3>Get your ticket</h3>
    <label>Full name<input name="name" autocomplete="name" placeholder="Asha Mohanty"><span class="err"></span></label>
    <label>Email<input name="email" type="email" autocomplete="email" placeholder="asha@example.com"><span class="err"></span></label>
    <label>Phone number<input name="phone" type="tel" autocomplete="tel" placeholder="10-digit mobile number"><span class="err"></span></label>
@@ -77,14 +77,14 @@ function submit(f){
   const ref="CV"+Math.random().toString(36).slice(2,8).toUpperCase();
   regs.push({ref,eventId,name:f.name.value.trim(),email,phone:f.phone.value.trim()});store.set(regs);
   open=null;
-  $("#m-body").innerHTML=`<div class="ok"><div class="tick">✓</div><h2>You're registered!</h2><p>${esc(f.name.value.trim())}, your seat for <b>${e.title}</b> is confirmed.<br>${fmt(e.time)} · ${e.venue}<br>Reference: <b>${ref}</b></p><button class="btn" id="done">Done</button></div>`;
+  $("#m-body").innerHTML=`<div class="ok"><div class="tick">✓</div><h2>You're in!</h2><p>${esc(f.name.value.trim())}, your seat for <b>${e.title}</b> is confirmed.<br>${fmt(e.time)} · ${e.venue}<br>Reference: <b>${ref}</b></p><button class="btn" id="done">Done</button></div>`;
   render();
 }
 document.addEventListener("click",ev=>{
   const t=ev.target;
-  const card=t.closest(".card");if(card)return openEvent(+card.dataset.id);
-  if(t.dataset.id)return openEvent(+t.dataset.id);
-  if(t.classList.contains("chip")){cat=t.textContent;return render()}
+  const card=t.closest(".row");if(card)return openEvent(+card.dataset.id);
+  if(t.dataset.id&&!t.closest(".row"))return openEvent(+t.dataset.id);
+  const ct=t.closest(".cat");if(ct){cat=ct.dataset.cat;return render()}
   if(t.dataset.cancel){store.set(store.get().filter(r=>r.ref!==t.dataset.cancel));return render()}
   if(t.id==="close"||t.id==="done"||t.id==="modal"){open=null;$("#modal").close()}
   if(t.id==="theme"){const d=document.documentElement.dataset.theme==="dark"?"light":"dark";document.documentElement.dataset.theme=d;try{localStorage.setItem("theme",d)}catch{}}
